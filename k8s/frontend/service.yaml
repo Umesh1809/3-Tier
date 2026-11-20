@@ -1,0 +1,21 @@
+# Internal frontend Service receives browser requests from the AWS Ingress.
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: student-demo
+  labels:
+    app: frontend
+    tier: presentation
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /healthz
+    alb.ingress.kubernetes.io/success-codes: "200"
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+    tier: presentation
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

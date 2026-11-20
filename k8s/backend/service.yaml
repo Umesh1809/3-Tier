@@ -1,0 +1,21 @@
+# Internal backend Service receives /api requests from the AWS Ingress.
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: student-demo
+  labels:
+    app: backend
+    tier: application
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health/readiness
+    alb.ingress.kubernetes.io/success-codes: "200"
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+    tier: application
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080

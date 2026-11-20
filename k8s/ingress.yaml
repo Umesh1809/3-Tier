@@ -1,0 +1,29 @@
+# AWS Load Balancer Controller provisions one ALB and routes browser/API traffic
+# directly to the internal frontend and backend Services.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: student-demo
+  namespace: student-demo
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80

@@ -1,0 +1,18 @@
+# Headless Service gives the MySQL StatefulSet a stable internal DNS name.
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  namespace: student-demo
+  labels:
+    app: mysql
+    tier: database
+spec:
+  clusterIP: None
+  selector:
+    app: mysql
+    tier: database
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
