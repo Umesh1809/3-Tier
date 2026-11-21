@@ -33,6 +33,10 @@ services:
       retries: 12
       start_period: 60s
     restart: unless-stopped
+    networks:
+      default:
+        aliases:
+          - backend-service
 
   frontend:
     build:

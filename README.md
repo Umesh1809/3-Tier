@@ -36,7 +36,7 @@ docker compose ps
 
 On Linux, use `cp .env.example .env` instead of `Copy-Item`.
 
-Open `http://localhost`. The frontend proxies `/api` requests to the backend, and MySQL data is kept in the `mysql-data` volume. Docker Compose reads the database and host-port settings from `.env`; `.env` is ignored by Git. The example credentials are for local demonstration only—replace them with strong values before using real data.
+Open `http://localhost`. The frontend proxies `/api` requests to `backend-service`; Compose configures that name as a backend network alias, and Kubernetes provides it as a Service. MySQL data is kept in the `mysql-data` volume. Docker Compose reads the database and host-port settings from `.env`; `.env` is ignored by Git. The example credentials are for local demonstration only—replace them with strong values before using real data.
 
 Stop the services with `docker compose down`. To also remove the stored database data, run `docker compose down --volumes`.
 
