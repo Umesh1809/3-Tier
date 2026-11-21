@@ -10,7 +10,7 @@ RUN npm run build
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
-RUN sed -i 's|pid /var/run/nginx.pid;|pid /tmp/nginx.pid;|' /etc/nginx/nginx.conf \
+RUN sed -i 's|^[[:space:]]*pid[[:space:]].*;|pid /tmp/nginx.pid;|' /etc/nginx/nginx.conf \
     && mkdir -p /tmp/client_temp /var/cache/nginx \
     && chown 101:101 /tmp/client_temp \
     && chown -R 101:101 /var/cache/nginx
