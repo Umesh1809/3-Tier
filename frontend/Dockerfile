@@ -8,8 +8,8 @@ RUN npm run build
 
 # Serve static files with an unprivileged Nginx worker.
 FROM nginx:alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
+# Runtime deployments provide Nginx configuration through Compose or a Kubernetes ConfigMap.
 RUN sed -i 's|^[[:space:]]*pid[[:space:]].*;|pid /tmp/nginx.pid;|' /etc/nginx/nginx.conf \
     && mkdir -p /tmp/client_temp /var/cache/nginx \
     && chown 101:101 /tmp/client_temp \

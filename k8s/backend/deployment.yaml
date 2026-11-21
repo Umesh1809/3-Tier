@@ -48,7 +48,7 @@ spec:
                   key: MYSQL_DATABASE
       containers:
         - name: backend
-          image: student-backend:1.0
+          image: shammu191/student-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
