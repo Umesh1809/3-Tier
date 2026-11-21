@@ -17,10 +17,24 @@ k8s/
 ## Prerequisites
 
 - Docker
+- Docker Compose
 - Java 17 and Maven (optional for local source builds)
 - Node.js 20 and npm (optional for local source builds)
 - An AWS EKS cluster with AWS Load Balancer Controller installed and configured with the required IAM permissions
 - `kubectl` configured for that EKS cluster
+
+## Run locally with Docker Compose
+
+From the project root, build and start MySQL, the backend, and the frontend:
+
+```powershell
+docker compose up --build -d
+docker compose ps
+```
+
+Open `http://localhost:8080`. The frontend proxies `/api` requests to the backend, and MySQL data is kept in the `mysql-data` volume. The default database credentials are for local demonstration only. Set `MYSQL_ROOT_PASSWORD`, `MYSQL_PASSWORD`, and optionally `MYSQL_DATABASE`, `MYSQL_USER`, or `FRONTEND_PORT` in the environment before starting Compose when using different values; use strong credentials for any non-demo deployment.
+
+Stop the services with `docker compose down`. To also remove the stored database data, run `docker compose down --volumes`.
 
 ## Build images
 
