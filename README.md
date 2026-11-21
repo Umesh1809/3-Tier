@@ -30,8 +30,7 @@ From the project root, build and start MySQL, the backend, and the frontend:
 ```powershell
 Copy-Item .env.example .env
 # Edit .env and replace demo credentials before using real data.
-docker compose pull
-docker compose up -d
+docker compose up --build -d
 docker compose ps
 ```
 
