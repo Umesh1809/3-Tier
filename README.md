@@ -30,7 +30,8 @@ From the project root, build and start MySQL, the backend, and the frontend:
 ```powershell
 Copy-Item .env.example .env
 # Edit .env and replace demo credentials before using real data.
-docker compose up --build -d
+docker compose pull
+docker compose up -d
 docker compose ps
 ```
 
@@ -45,11 +46,13 @@ Stop the services with `docker compose down`. To also remove the stored database
 Run these commands from the project root:
 
 ```powershell
-docker build -t student-backend:1.0 .\backend
-docker build -t student-frontend:1.0 .\frontend
+docker build -t shammu191/student-backend:latest .\backend
+docker build -t shammu191/student-frontend:latest .\frontend
+docker push shammu191/student-backend:latest
+docker push shammu191/student-frontend:latest
 ```
 
-Push both images to a container registry accessible by EKS (for example, Amazon ECR), and update the two image references in the Kubernetes Deployment manifests if needed.
+These Docker Hub tags are used by the Compose and Kubernetes deployments.
 
 Optional source builds:
 

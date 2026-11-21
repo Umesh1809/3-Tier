@@ -17,8 +17,7 @@ services:
     restart: unless-stopped
 
   backend:
-    build:
-      context: ./backend
+    image: shammu191/student-backend:latest
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:?Set MYSQL_DATABASE in .env}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:?Set MYSQL_USER in .env}
@@ -39,8 +38,7 @@ services:
           - backend-service
 
   frontend:
-    build:
-      context: ./frontend
+    image: shammu191/student-frontend:latest
     depends_on:
       backend:
         condition: service_healthy
