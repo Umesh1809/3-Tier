@@ -32,7 +32,7 @@ docker compose up --build -d
 docker compose ps
 ```
 
-Open `http://localhost:8080`. The frontend proxies `/api` requests to the backend, and MySQL data is kept in the `mysql-data` volume. The default database credentials are for local demonstration only. Set `MYSQL_ROOT_PASSWORD`, `MYSQL_PASSWORD`, and optionally `MYSQL_DATABASE`, `MYSQL_USER`, or `FRONTEND_PORT` in the environment before starting Compose when using different values; use strong credentials for any non-demo deployment.
+Open `http://localhost`. The frontend proxies `/api` requests to the backend, and MySQL data is kept in the `mysql-data` volume. The default host port is 80; set `FRONTEND_PORT` to use another host port. The default database credentials are for local demonstration only. Set `MYSQL_ROOT_PASSWORD`, `MYSQL_PASSWORD`, and optionally `MYSQL_DATABASE` or `MYSQL_USER` in the environment before starting Compose when using different values; use strong credentials for any non-demo deployment.
 
 Stop the services with `docker compose down`. To also remove the stored database data, run `docker compose down --volumes`.
 
