@@ -1,4 +1,4 @@
-# Student Management Demo
+git # Student Management Demo
 
 A teaching-oriented three-tier app with a React 18/Vite UI, a Spring Boot REST API, MySQL on Kubernetes, and an AWS Application Load Balancer provisioned by Kubernetes Ingress.
 
@@ -28,11 +28,15 @@ k8s/
 From the project root, build and start MySQL, the backend, and the frontend:
 
 ```powershell
+Copy-Item .env.example .env
+# Edit .env and replace demo credentials before using real data.
 docker compose up --build -d
 docker compose ps
 ```
 
-Open `http://localhost`. The frontend proxies `/api` requests to the backend, and MySQL data is kept in the `mysql-data` volume. The default host port is 80; set `FRONTEND_PORT` to use another host port. The default database credentials are for local demonstration only. Set `MYSQL_ROOT_PASSWORD`, `MYSQL_PASSWORD`, and optionally `MYSQL_DATABASE` or `MYSQL_USER` in the environment before starting Compose when using different values; use strong credentials for any non-demo deployment.
+On Linux, use `cp .env.example .env` instead of `Copy-Item`.
+
+Open `http://localhost`. The frontend proxies `/api` requests to the backend, and MySQL data is kept in the `mysql-data` volume. Docker Compose reads the database and host-port settings from `.env`; `.env` is ignored by Git. The example credentials are for local demonstration only—replace them with strong values before using real data.
 
 Stop the services with `docker compose down`. To also remove the stored database data, run `docker compose down --volumes`.
 
