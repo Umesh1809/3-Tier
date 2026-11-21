@@ -11,8 +11,9 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 RUN sed -i 's|pid /var/run/nginx.pid;|pid /tmp/nginx.pid;|' /etc/nginx/nginx.conf \
-    && mkdir -p /tmp/client_temp /tmp/proxy_temp \
-    && chown 101:101 /tmp/client_temp /tmp/proxy_temp
+    && mkdir -p /tmp/client_temp /var/cache/nginx \
+    && chown 101:101 /tmp/client_temp \
+    && chown -R 101:101 /var/cache/nginx
 USER 101:101
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
