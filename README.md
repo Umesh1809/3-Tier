@@ -132,8 +132,24 @@ The page also shows the backend pod hostname from `/api/info`, and its refresh b
 
 ## Clean up
 
-```powershell
-kubectl delete namespace student-demo
-```
 
-Persistent volume reclamation depends on the cluster's StorageClass reclaim policy. AWS resource creation and image publication time are additional to the application deployment steps.
+=========================
+
+
+kubectl exec -it mysql-0 -n student-demo -- mysql -u root -pdemo-root-password
+
+demo-root-password
+
+
+SHOW DATABASES;
+
+
+USE studentdb;
+
+
+SHOW TABLES;
+
+===================
+
+SELECT * FROM students;
+
