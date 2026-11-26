@@ -1,29 +1,58 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
-- master
-
-resources:
-- repo: self
+  branches:
+    include:
+      - master
 
 variables:
+  dockerRegistryConnection: 'DockerHubConnection'
+  dockerHubUser: 'your-dockerhub-username'
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: Build
-  displayName: Build image
+# STAGE 1: Build & Test Application Code (CI)
+- stage: BuildApp
+  displayName: '1. Build & Test Code'
+  pool:
+    vmImage: 'ubuntu-latest'
   jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
+  - job: BuildBackendAndFrontend
+    steps:
+    - bash: mvn -f backend/pom.xml clean package -DskipTests
+      displayName: 'Build Spring Boot Backend'
+    - bash: |
+        npm --prefix frontend install
+        npm --prefix frontend run build
+      displayName: 'Build React Frontend'
+
+# STAGE 2: Build & Push Docker Images (CI)
+- stage: PushImages
+  displayName: '2. Build & Push Docker Images'
+  dependsOn: BuildApp
+  pool:
+    vmImage: 'ubuntu-latest'
+  jobs:
+  - job: DockerBuildPush
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: 'Build & Push Backend'
       inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/backend/Dockerfile'
+        command: 'buildAndPush'
+        containerRegistry: '$(dockerRegistryConnection)'
+        repository: '$(dockerHubUser)/student-backend'
+        Dockerfile: 'backend/Dockerfile'
+        buildContext: 'backend'
         tags: |
           $(tag)
+          latest
+
+    - task: Docker@2
+      displayName: 'Build & Push Frontend'
+      inputs:
+        command: 'buildAndPush'
+        containerRegistry: '$(dockerRegistryConnection)'
+        repository: '$(dockerHubUser)/student-frontend'
+        Dockerfile: 'frontend/Dockerfile'
+        buildContext: 'frontend'
+        tags: |
+          $(tag)
+          latest
