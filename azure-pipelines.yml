@@ -5,7 +5,7 @@ trigger:
 
 variables:
   dockerRegistryConnection: 'Dockerhubregistry'
-  dockerHubUser: 'your-dockerhub-username'
+  dockerHubUser: 'umesh1809'
   tag: '$(Build.BuildId)'
 
 stages:
